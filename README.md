@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UnHEIC
 
-## Getting Started
+**Your Photos, Unchained. The standard for absolute privacy in image conversion.**
 
-First, run the development server:
+UnHEIC is a pure client-side web application engineered to instantly and securely convert Apple's proprietary HEIC (High-Efficiency Image Container) photos into universally compatible JPGs.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What It Is
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+UnHEIC is a premium, minimalist web utility built for users who demand speed, beautiful design, and uncompromising data privacy. By leveraging modern web technologies, it transforms your browser into a local processing engine, eliminating the need for cloud infrastructure or file uploads.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What It Does
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Client-Side Decoding:** UnHEIC uses WebAssembly (`heic2any`) to decode HEIC images directly within your browser's local memory.
+- **Batch Processing:** Drop dozens of images at once. The tool processes them concurrently and packages the results into a single, convenient ZIP file for immediate download.
+- **Instant Velocity:** Because there are no upload queues, network bottlenecks, or server processing times, conversions happen near-instantaneously, limited only by your own device's hardware capabilities.
+- **Pristine Quality:** The conversion engine carefully preserves the original color profiles and high-resolution details of your Apple photography.
 
-## Learn More
+## Why We Built It
 
-To learn more about Next.js, take a look at the following resources:
+Every day, millions of people search for ways to convert their iPhone photos to a format they can use on older devices, Windows PCs, or specific web platforms. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The vast majority of existing solutions require users to upload their deeply personal, private photos to random, ad-riddled, third-party servers. This is a massive privacy risk. Once a photo leaves your device, you surrender control over how it is stored, who can see it, and what it might be used for.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+We built UnHEIC to solve this problem permanently. By bringing the conversion directly to the edge—your device—we eliminate the server entirely. Your photos never leave your computer, ensuring 100% privacy and zero risk of data exposure.
 
-## Deploy on Vercel
+## Technical Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS + Framer Motion for cinematic, high-end micro-interactions
+- **Conversion Engine:** `heic2any` (WebAssembly)
+- **File Management:** `jszip` and `file-saver` for robust batch downloading
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+*Designed and engineered with absolute respect for user privacy.*

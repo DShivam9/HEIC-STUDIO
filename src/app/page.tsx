@@ -1,212 +1,364 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import DropzoneArea from "@/components/dropzone-area";
-import { Code2, Zap, Shield, Sparkles } from "lucide-react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { Shield, Zap, Image as ImageIcon, ArrowRight, ChevronDown } from "lucide-react";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { TiltCard } from "@/components/tilt-card";
+import { HeroParallax } from "@/components/hero-parallax";
+import { LensBlurText } from "@/components/lens-blur-text";
+import { ElegantFooter } from "@/components/elegant-footer";
+import { ThemeToggle } from "@/components/theme-toggle";
+
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.18-.35 6.5-1.5 6.5-7a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 5.5 3.3 6.65 6.5 7a4.8 4.8 0 0 0-1 3.02V22" />
+    <path d="M9 20c-5 1.5-5-2.5-7-3" />
+  </svg>
+);
+
+const TwitterIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+  </svg>
+);
+
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="border-b border-border/40 relative group overflow-hidden">
+      {/* Soft background glow on hover */}
+      <div className="absolute inset-0 bg-primary/5 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1] -z-10 rounded-xl" />
+      
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between text-left py-8 px-4"
+      >
+        <h3 className="font-heading text-2xl text-foreground group-hover:text-primary transform group-hover:translate-x-2 transition-all duration-500 ease-[0.16,1,0.3,1]">{question}</h3>
+        
+        {/* Animated Icon container */}
+        <div className="relative size-10 flex items-center justify-center rounded-full border border-transparent group-hover:border-primary/20 group-hover:bg-primary/5 transition-all duration-500 shrink-0 ml-4">
+          <motion.div 
+            animate={{ rotate: isOpen ? 180 : 0 }} 
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <ChevronDown className="size-5 text-muted-foreground group-hover:text-primary transition-colors" />
+          </motion.div>
+        </div>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="px-4 pb-8 text-muted-foreground leading-relaxed text-lg font-sans">
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export default function Home() {
-  const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+  
+  const { scrollY } = useScroll();
+  const { scrollYProgress: heroScrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end end"]
+  });
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 20);
+    const isScrolled = latest > 20;
+    if (scrolled !== isScrolled) {
+      setScrolled(isScrolled);
+    }
   });
 
   return (
-    <div className="flex-1 flex flex-col relative bg-background selection:bg-primary/20">
+    <div className="flex-1 flex flex-col relative bg-background text-foreground selection:bg-primary/10">
       
-      {/* Structural Navbar - Solid, no glass blur */}
+      {/* High-Fashion Navbar */}
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${
-          scrolled ? "bg-background border-b border-border" : "bg-transparent border-transparent"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
+          scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/40 py-4 shadow-sm" : "bg-transparent py-6"
         }`}
       >
-        <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="size-8 bg-foreground rounded-none flex items-center justify-center text-background font-bold font-sans tracking-tighter">
-              UH
-            </div>
-            <h1 className="text-xl font-heading font-bold tracking-tight">UnHEIC.</h1>
+        <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-2 group cursor-pointer">
+            <h1 className="text-3xl font-heading font-semibold tracking-wide logo-shimmer">UnHEIC.</h1>
           </div>
-          <nav className="flex items-center gap-8">
-            {["About", "How it Works", "Privacy"].map((item) => (
+          <nav className="flex items-center gap-10">
+            {["Approach", "Privacy", "FAQ"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block relative group"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(item.toLowerCase().replace(/ /g, "-"))?.scrollIntoView({ behavior: "smooth" });
+                }}
+                data-text={item}
+                className="nav-link text-sm font-sans tracking-[0.15em] uppercase hidden md:block relative after:absolute after:bottom-[-4px] after:left-0 after:h-[1px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full hover:text-primary transition-colors duration-300"
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
             <a
               href="https://github.com/DShivam9/UnHEIC"
               target="_blank"
               rel="noreferrer"
-              className="text-foreground transition-transform hover:-translate-y-0.5 flex items-center gap-2 text-sm font-medium bg-foreground/5 px-4 py-2 rounded-none border border-foreground/10"
+              className="text-foreground/70 hover:text-primary hover:-translate-y-1 transition-all duration-300 inline-block"
             >
-              <Code2 className="size-4" />
-              <span className="hidden sm:inline">GitHub</span>
+              <GithubIcon className="size-5" />
             </a>
+            <ThemeToggle />
           </nav>
         </div>
       </motion.header>
 
-      <main className="flex-1 flex flex-col pt-20">
+      <main className="flex-1 flex flex-col relative">
+        
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-24 md:py-32 flex flex-col items-center justify-center min-h-[75vh]">
-          <div className="w-full max-w-4xl flex flex-col items-center space-y-12 text-center">
-            <div className="space-y-6">
+        <section ref={heroRef} className="relative h-[400vh] w-full">
+          <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
+            <HeroParallax scrollProgress={heroScrollYProgress} />
+            
+            <div className="container relative z-10 max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+            
+            <div className="max-w-4xl mx-auto pb-4">
               <motion.h2 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-6xl md:text-8xl font-heading font-bold tracking-tighter text-foreground leading-[1.1]"
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                className="text-5xl md:text-6xl lg:text-[5.5rem] font-heading font-medium tracking-tight text-foreground leading-[1.1] mb-10 relative"
               >
-                Un-HEIC your photos.
+                <span>Your Photos,{" "}</span>
+                <span className="alive-text-container italic font-light">
+                  {/* Crisp, solid core text with sweeping liquid metallic gradient */}
+                  <span className="alive-text-core">
+                    Unchained.
+                  </span>
+                </span>
               </motion.h2>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-[38rem] mx-auto text-muted-foreground text-lg md:text-xl leading-relaxed font-sans"
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
+                className="max-w-xl mx-auto text-muted-foreground text-lg md:text-xl leading-relaxed font-sans font-light mb-16"
               >
-                Fast, free, and <strong className="text-foreground font-medium">100% private</strong>. 
-                Converted securely inside your browser using WebAssembly.
+                Transform your iPhone HEIC photos to JPG instantly. Zero server uploads. 100% uncompromising privacy.
               </motion.p>
             </div>
 
-            <motion.div
+            <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full"
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-xl relative mt-4"
             >
               <DropzoneArea />
+            </motion.div>
+
+          </div>
+          </div>
+        </section>
+
+        {/* Elegant Cards Section */}
+        <section id="approach" className="bg-background/40 backdrop-blur-sm relative z-10 py-32 scroll-mt-20 border-y border-border/20">
+          <div className="container mx-auto px-6 md:px-12 max-w-6xl">
+            <div className="text-center mb-20 space-y-4">
+              <motion.h2 
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="font-sans text-sm tracking-[0.2em] uppercase text-primary"
+              >
+                Our Approach
+              </motion.h2>
+              <div className="font-heading text-4xl md:text-5xl flex justify-center">
+                <LensBlurText text="The Standard for Privacy" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { icon: Shield, title: "Absolute Privacy", desc: "Your photos never leave your device. WebAssembly performs the conversion entirely within your browser's local memory." },
+                { icon: Zap, title: "Instant Velocity", desc: "No upload queues or server processing times. Harness the full power of your own hardware for immediate results." },
+                { icon: ImageIcon, title: "Pristine Quality", desc: "Our conversion engine maintains the exact color profiles and resolution of your original Apple photography." }
+              ].map((feature, i) => (
+                <TiltCard key={i}>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.8, delay: i * 0.15 }}
+                    className="flex flex-col items-center text-center space-y-6 p-10 bg-card/50 backdrop-blur-md border border-border/40 hover:border-primary/30 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(var(--primary),0.15)] group relative overflow-hidden h-full"
+                  >
+                    {/* Subtle reveal gradient on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    
+                    <feature.icon className="size-8 text-primary/60 group-hover:text-primary transition-colors duration-500 stroke-[1]" />
+                    <div className="space-y-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                      <h4 className="text-2xl font-heading font-medium text-foreground">{feature.title}</h4>
+                      <p className="text-sm font-sans font-light text-muted-foreground leading-relaxed">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                </TiltCard>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Privacy Deep Dive */}
+        <section id="privacy" className="py-32 container mx-auto px-6 md:px-12 max-w-5xl relative z-10 scroll-mt-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="space-y-8"
+            >
+              <h2 className="font-sans text-sm tracking-[0.2em] uppercase text-primary">Our Guarantee</h2>
+              <h3 className="font-heading text-5xl leading-tight">Your Photos,<br/>Your Device.</h3>
+              <div className="space-y-6 text-muted-foreground font-sans font-light text-lg leading-relaxed">
+                <p>
+                  Absolute privacy is engineered into the core of UnHEIC. We believe your personal memories should remain entirely under your control.
+                </p>
+                <p>
+                  Our tool brings a powerful conversion engine directly to your browser. Your files never leave your computer, ensuring uncompromising security and processing speeds that bypass the cloud entirely.
+                </p>
+                <Link href="/learn-more" className="pt-4 flex items-center gap-4 text-sm font-medium text-primary cursor-pointer inline-flex group/link relative">
+                  <span className="uppercase tracking-widest group-hover/link:tracking-[0.3em] transition-all duration-500 ease-[0.16,1,0.3,1]">Learn More</span>
+                  <ArrowRight className="size-4 group-hover/link:translate-x-1 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative aspect-square md:aspect-auto md:h-[450px] w-full max-w-md mx-auto"
+            >
+              <TiltCard className="w-full h-full rounded-[2.5rem]">
+                <div className="w-full h-full rounded-[2.5rem] border border-border/30 bg-card/30 backdrop-blur-3xl overflow-hidden relative flex flex-col items-center justify-center shadow-2xl group">
+                  
+                  {/* Subtle rotating gradient background */}
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-[-50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg_at_50%_50%,rgba(var(--primary),0.03)_0deg,transparent_60deg,transparent_300deg,rgba(var(--primary),0.03)_360deg)] pointer-events-none"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/50" />
+                  
+                  {/* Shield / Lock Icon */}
+                  <motion.div 
+                    animate={{ y: [-5, 5, -5] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative mb-12"
+                  >
+                    <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-150" />
+                    <div className="relative p-5 rounded-2xl bg-foreground/5 border border-border/50 backdrop-blur-md shadow-xl">
+                      <Shield className="size-10 text-primary drop-shadow-[0_0_10px_rgba(var(--primary),0.3)]" strokeWidth={1} />
+                    </div>
+                  </motion.div>
+
+                  {/* Text */}
+                  <div className="text-center space-y-4 relative z-10">
+                    <div className="text-8xl md:text-9xl font-heading italic text-foreground tracking-tighter mix-blend-difference opacity-90">
+                      0
+                    </div>
+                    <div className="text-sm font-sans font-medium tracking-[0.4em] uppercase text-primary/70">
+                      Bytes Uploaded
+                    </div>
+                  </div>
+                  
+                  {/* Floating data particles contained inside */}
+                  <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[2.5rem]">
+                    {[...Array(6)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute size-1.5 bg-primary/40 rounded-full"
+                        initial={{
+                          x: 100 + ((i * 37) % 200),
+                          y: 100 + ((i * 53) % 200),
+                          opacity: 0,
+                        }}
+                        animate={{
+                          x: [
+                            `${((i * 17) % 80) + 10}%`,
+                            `${((i * 43) % 80) + 10}%`,
+                            `${((i * 71) % 80) + 10}%`,
+                          ],
+                          y: [
+                            `${((i * 23) % 80) + 10}%`,
+                            `${((i * 47) % 80) + 10}%`,
+                            `${((i * 83) % 80) + 10}%`,
+                          ],
+                          opacity: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 10 + (i % 10),
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                </div>
+              </TiltCard>
             </motion.div>
           </div>
         </section>
 
-        {/* Features Grid */}
-        <section id="features" className="border-y border-border bg-foreground/[0.02] py-24">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-              <motion.div 
-                whileHover={{ y: -5 }}
-                className="flex flex-col items-center text-center space-y-4 p-8 bg-background border border-border transition-shadow hover:shadow-lg"
-              >
-                <Shield className="size-8 text-foreground mb-2 stroke-[1.5]" />
-                <h3 className="text-xl font-heading font-bold text-foreground">100% Local & Private</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Your photos never touch a server. WebAssembly does all the heavy lifting right in your browser memory.
-                </p>
-              </motion.div>
-              
-              <motion.div 
-                whileHover={{ y: -5 }}
-                className="flex flex-col items-center text-center space-y-4 p-8 bg-background border border-border transition-shadow hover:shadow-lg"
-              >
-                <Zap className="size-8 text-foreground mb-2 stroke-[1.5]" />
-                <h3 className="text-xl font-heading font-bold text-foreground">Lightning Fast</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  No waiting for uploads or downloads. Conversions happen instantly using your device's full power.
-                </p>
-              </motion.div>
-
-              <motion.div 
-                whileHover={{ y: -5 }}
-                className="flex flex-col items-center text-center space-y-4 p-8 bg-background border border-border transition-shadow hover:shadow-lg"
-              >
-                <Sparkles className="size-8 text-foreground mb-2 stroke-[1.5]" />
-                <h3 className="text-xl font-heading font-bold text-foreground">Free Forever</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  No paywalls, no file size limits, no accounts required. Just simple, unlimited conversions.
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Content Sections */}
-        <section id="how-it-works" className="py-24 container mx-auto px-4 max-w-3xl">
-          <div className="space-y-24">
-            
-            {/* How it Works */}
-            <div className="space-y-8">
-              <h2 className="text-4xl font-heading font-bold tracking-tight text-foreground">How it works.</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 border-l border-border pl-6">
-                <div className="space-y-3">
-                  <div className="text-sm font-bold text-muted-foreground tracking-widest uppercase">01</div>
-                  <h4 className="font-bold text-foreground">Select Files</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Drag and drop your iPhone HEIC photos into the zone.</p>
-                </div>
-                <div className="space-y-3">
-                  <div className="text-sm font-bold text-muted-foreground tracking-widest uppercase">02</div>
-                  <h4 className="font-bold text-foreground">Local Magic</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Your browser converts them instantly using WebAssembly.</p>
-                </div>
-                <div className="space-y-3">
-                  <div className="text-sm font-bold text-muted-foreground tracking-widest uppercase">03</div>
-                  <h4 className="font-bold text-foreground">Save JPGs</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Download your universally compatible JPG files immediately.</p>
-                </div>
-              </div>
+        {/* Comprehensive FAQ */}
+        <section id="faq" className="py-32 relative z-10 scroll-mt-20">
+          <div className="container mx-auto px-6 md:px-12 max-w-3xl relative z-10">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="font-sans text-sm tracking-[0.2em] uppercase text-primary">Inquiries</h2>
+              <h3 className="font-heading text-5xl">Frequently Asked.</h3>
             </div>
 
-            {/* About */}
-            <div id="about" className="space-y-8 pt-12 border-t border-border">
-              <h2 className="text-4xl font-heading font-bold tracking-tight text-foreground">What is a HEIC file?</h2>
-              <div className="space-y-6 text-muted-foreground leading-relaxed text-lg font-serif">
-                <p>
-                  HEIC (High-Efficiency Image Container) is the default photo format used by Apple on modern iPhones and iPads. While it's fantastic for saving storage space without losing visual quality, it can be a nightmare when you try to share those photos with Windows PCs, Android devices, or older websites that only accept JPG or PNG formats.
-                </p>
-                <p>
-                  UnHEIC solves this by acting as a bridge, instantly transforming your HEIC images into standard JPGs so you can use them everywhere, without the hassle of installing software.
-                </p>
-              </div>
-            </div>
-
-            {/* Privacy */}
-            <div id="privacy" className="space-y-8 pt-12 border-t border-border">
-              <h2 className="text-4xl font-heading font-bold tracking-tight text-foreground">Strict Privacy.</h2>
-              <div className="space-y-6 text-muted-foreground leading-relaxed text-lg font-serif">
-                <p>
-                  <strong className="text-foreground">We do not collect, store, or see your photos. Period.</strong>
-                </p>
-                <p>
-                  Traditional image converters force you to upload your personal photos to their remote servers, where they process them and make you download the result. This is a massive privacy risk and highly inefficient.
-                </p>
-                <p>
-                  UnHEIC downloads the conversion engine (WebAssembly) directly to your browser once, and then processes all images entirely offline on your own device's CPU. Your images are never transmitted over the internet.
-                </p>
-              </div>
+            <div className="space-y-2">
+              <FAQItem 
+                question="Are my photos uploaded to a server?" 
+                answer="No. This is the core philosophy of UnHEIC. Your photos never leave your device. The conversion script is downloaded to your browser, and all processing happens in your local RAM." 
+              />
+              <FAQItem 
+                question="Is there a file size limit?" 
+                answer="Because the processing happens on your device, the only limit is your device's available memory. Modern smartphones and laptops can easily handle 50MB+ photos without issue." 
+              />
+              <FAQItem 
+                question="Does this work on mobile devices?" 
+                answer="Yes. UnHEIC is fully responsive and the WebAssembly engine runs seamlessly in mobile Safari, Chrome, and Firefox." 
+              />
+              <FAQItem 
+                question="Why are my iPhone photos in HEIC anyway?" 
+                answer="Apple adopted HEIC (High-Efficiency Image Container) because it offers significantly better compression than JPG, saving you iCloud and device storage space without sacrificing quality." 
+              />
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-foreground/[0.02] py-12">
-        <div className="container mx-auto px-4 max-w-5xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="size-6 bg-foreground flex items-center justify-center text-background font-bold font-sans text-xs tracking-tighter">
-              UH
-            </div>
-            <span className="font-heading font-bold tracking-tight text-foreground">UnHEIC</span>
-          </div>
-          
-          <p className="text-xs text-muted-foreground text-center md:text-left">
-            © {new Date().getFullYear()} UnHEIC. 100% Client-Side Processing.
-          </p>
-
-          <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <a href="#about" className="hover:text-foreground transition-colors">About</a>
-            <a href="#privacy" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="mailto:hello@unheic.com" className="hover:text-foreground transition-colors">Contact</a>
-          </nav>
-        </div>
-      </footer>
+      <ElegantFooter />
     </div>
   );
 }

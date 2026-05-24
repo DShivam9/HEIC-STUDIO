@@ -9,15 +9,25 @@ export interface ConversionJob {
 }
 
 export async function convertHeicToJpg(file: File): Promise<string> {
-  // Dynamically import heic2any so it doesn't break Next.js SSR (which lacks 'window')
-  const heic2any = (await import("heic2any")).default;
+  if (typeof window === "undefined") {
+    throw new Error("Cannot convert on server side");
+  }
 
-  const convertedBlob = await heic2any({
-    blob: file,
-    toType: "image/jpeg",
-    quality: 0.9,
-  });
+  try {
+    // Dynamically import heic2any to prevent SSR issues
+    const heic2any = (await import("heic2any")).default;
 
-  const finalBlob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-  return URL.createObjectURL(finalBlob);
+    const resultBlob = await heic2any({
+      blob: file,
+      toType: "image/jpeg",
+      quality: 0.8,
+    });
+
+    // heic2any can return an array of blobs for image sequences. We just want the first one.
+    const blob = Array.isArray(resultBlob) ? resultBlob[0] : resultBlob;
+    
+    return URL.createObjectURL(blob);
+  } catch (error: any) {
+    throw new Error(error.message || "Failed to convert HEIC to JPG");
+  }
 }
