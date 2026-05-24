@@ -1,5 +1,31 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Shield, Cpu, Lock } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "How HEIC to JPG Conversion Works — The Architecture of Privacy",
+  description:
+    "Learn how HEIC Studio converts your iPhone photos to JPG entirely in your browser using WebAssembly. No servers, no uploads — understand the technology behind truly private photo conversion.",
+  keywords: [
+    "how heic conversion works",
+    "heic to jpg privacy",
+    "webassembly image converter",
+    "client side heic converter",
+    "local heic to jpg",
+    "what is heic format",
+  ],
+  alternates: {
+    canonical: "https://heicstudio.vercel.app/learn-more",
+  },
+  openGraph: {
+    title: "How It Works — HEIC Studio",
+    description:
+      "Understand how HEIC Studio converts photos entirely in your browser with zero server uploads.",
+    url: "https://heicstudio.vercel.app/learn-more",
+    type: "article",
+  },
+};
+
 export default function LearnMore() {
   return (
     <div className="min-h-screen bg-background text-foreground relative selection:bg-primary/20 selection:text-primary">
@@ -49,7 +75,7 @@ export default function LearnMore() {
 
           <h3 className="text-3xl font-heading text-foreground mt-16 mb-6">How It Works</h3>
           <p>
-            When you drop a HEIC file into UnHEIC, you aren't uploading it. Instead, your browser passes a memory reference to our embedded WebAssembly (Wasm) module. 
+            When you drop a HEIC file into HEIC Studio, you aren't uploading it. Instead, your browser passes a memory reference to our embedded WebAssembly (Wasm) module. 
           </p>
           <p>
             This module contains the sophisticated libheif decoder, compiled to run locally. It decodes the high-efficiency container format bit-by-bit in your device's RAM. Once the raw pixel data is extracted, it is immediately encoded into a standard JPG format and offered back to your local file system as a download.
@@ -64,7 +90,7 @@ export default function LearnMore() {
 
           <h3 className="text-3xl font-heading text-foreground mt-16 mb-6">The Environmental Impact</h3>
           <p>
-            Server-side conversion requires massive data centers running 24/7, consuming significant electricity and water for cooling. By utilizing the highly capable processors already sitting in your pocket or on your desk, UnHEIC operates with a negligible carbon footprint. We distribute the workload to the edge—your device.
+            Server-side conversion requires massive data centers running 24/7, consuming significant electricity and water for cooling. By utilizing the highly capable processors already sitting in your pocket or on your desk, HEIC Studio operates with a negligible carbon footprint. We distribute the workload to the edge—your device.
           </p>
         </article>
 

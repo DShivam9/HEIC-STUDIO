@@ -20,9 +20,9 @@ const FooterLink = ({ href, children }: { href: string; children: React.ReactNod
   );
 };
 
-function ScrollLetter({ char, index, progress }: { char: string, index: number, progress: any }) {
-  const start = 0.3 + (index * 0.05);
-  const end = Math.min(start + 0.3, 1);
+function ScrollLetter({ char, index, progress, total }: { char: string, index: number, progress: any, total: number }) {
+  const start = 0.3 + (index * 0.04);
+  const end = Math.min(start + 0.25, 1);
   
   // Explicitly clamp progress to prevent macOS elastic overscroll issues
   const clampedProgress = useTransform(progress, (v: number) => Math.min(Math.max(v, 0), 1));
@@ -33,22 +33,26 @@ function ScrollLetter({ char, index, progress }: { char: string, index: number, 
   const blurRaw = useTransform(clampedProgress, [start, end], [20, 0]);
   const filter = useTransform(blurRaw, (v: number) => `blur(${Math.max(0, v)}px)`);
 
+  // Handle space characters — inline-block collapses whitespace
+  const isSpace = char === " ";
+
   return (
     <motion.span style={{ y, opacity, rotateX, filter }} className="inline-block">
       <motion.span
         animate={{
-          filter: ["blur(0px)", "blur(4px)", "blur(0px)"],
-          opacity: [1, 0.6, 1],
+          filter: ["blur(0px)", "blur(3px)", "blur(0px)"],
+          opacity: [1, 0.7, 1],
         }}
         transition={{
-          duration: 5,
+          duration: 8,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.6,
+          // Tight wave: letters close together breathe almost in sync
+          delay: index * 0.15,
         }}
         className="inline-block text-foreground cursor-default"
       >
-        {char}
+        {isSpace ? "\u00A0" : char}
       </motion.span>
     </motion.span>
   );
@@ -86,7 +90,7 @@ export function ElegantFooter() {
             <FooterLink href="#approach">Approach</FooterLink>
             <FooterLink href="#privacy">Privacy</FooterLink>
             <FooterLink href="#faq">FAQ</FooterLink>
-            <FooterLink href="https://github.com/DShivam9/UnHEIC">Source Code</FooterLink>
+            <FooterLink href="https://github.com/DShivam9/HEIC Studio">Source Code</FooterLink>
           </nav>
         </div>
       </div>
@@ -98,8 +102,8 @@ export function ElegantFooter() {
           className="w-full text-center relative group pb-4"
         >
           <h2 className="text-[15vw] leading-none font-heading font-medium tracking-[-0.04em] cursor-default relative flex justify-center">
-            {"UnHEIC.".split("").map((char, i) => (
-              <ScrollLetter key={i} char={char} index={i} progress={scrollYProgress} />
+            {"HEIC Studio.".split("").map((char, i, arr) => (
+              <ScrollLetter key={i} char={char} index={i} progress={scrollYProgress} total={arr.length} />
             ))}
           </h2>
         </motion.div>
@@ -107,7 +111,7 @@ export function ElegantFooter() {
 
       {/* Very Bottom Bar */}
       <div className="container mx-auto mt-16 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-sans text-muted-foreground z-10 relative">
-        <p>© {new Date().getFullYear()} UnHEIC. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} HEIC Studio. All rights reserved.</p>
         <p className="flex gap-4">
           <span>Local Processed</span>
           <span>Open Source</span>
