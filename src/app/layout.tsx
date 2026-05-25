@@ -3,6 +3,7 @@ import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { PageTransition } from "@/components/page-transition";
 
 const montserrat = Montserrat({
   variable: "--font-sans",
@@ -304,7 +305,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SmoothScroll>
-            {children}
+            <PageTransition>
+              {children}
+            </PageTransition>
           </SmoothScroll>
         </ThemeProvider>
       </body>
