@@ -9,6 +9,10 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (typeof window !== "undefined" && "history" in window) {
+      window.history.scrollRestoration = "manual";
+    }
+
     // Initialize Lenis with a custom slower multiplier
     const lenis = new Lenis({
       duration: 1.5,

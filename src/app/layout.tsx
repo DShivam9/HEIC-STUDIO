@@ -28,14 +28,14 @@ const cormorant = Cormorant_Garamond({
 const SITE_URL = "https://heicstudio.vercel.app";
 const SITE_NAME = "HEIC Studio";
 const SITE_DESCRIPTION =
-  "Convert HEIC to JPG instantly and privately — 100% in your browser. No uploads, no servers, no privacy risks. Free, fast, and secure iPhone photo converter powered by WebAssembly.";
+  "Convert HEIC to JPG, PNG, or WEBP instantly and privately — 100% in your browser. No uploads, no servers, no privacy risks. Free, fast, and secure iPhone photo converter powered by WebAssembly.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   // ── Core ──
   title: {
-    default: "HEIC Studio — Free HEIC to JPG Converter (100% Private, No Upload)",
+    default: "HEIC Studio — Free HEIC to JPG, PNG, WEBP Converter (100% Private, No Upload)",
     template: "%s | HEIC Studio",
   },
   description: SITE_DESCRIPTION,
@@ -47,6 +47,9 @@ export const metadata: Metadata = {
     "heic to jpg online",
     "heic to jpeg",
     "heic to png",
+    "heic to webp",
+    "convert heic to png",
+    "convert heic to webp",
     "iphone photo converter",
     "apple heic converter",
     "convert heic locally",
@@ -71,7 +74,7 @@ export const metadata: Metadata = {
 
   // ── Open Graph ──
   openGraph: {
-    title: "HEIC Studio — Free HEIC to JPG Converter (100% Private)",
+    title: "HEIC Studio — Free HEIC to JPG, PNG, WEBP Converter (100% Private)",
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_NAME,
@@ -91,9 +94,9 @@ export const metadata: Metadata = {
   // ── Twitter ──
   twitter: {
     card: "summary_large_image",
-    title: "HEIC Studio — Free HEIC to JPG Converter",
+    title: "HEIC Studio — Free HEIC Converter",
     description:
-      "Convert iPhone HEIC photos to JPG instantly in your browser. Zero uploads, 100% private.",
+      "Convert iPhone HEIC photos to JPG, PNG, or WEBP instantly in your browser. Zero uploads, 100% private.",
     images: ["/og-image.png"],
     site: "@heicstudio",
   },
@@ -146,7 +149,7 @@ function JsonLd() {
       priceCurrency: "USD",
     },
     featureList: [
-      "Convert HEIC to JPG",
+      "Convert HEIC to JPG, PNG, WEBP",
       "100% client-side processing",
       "No file uploads to servers",
       "WebAssembly powered",
@@ -234,9 +237,9 @@ function JsonLd() {
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "How to Convert HEIC to JPG",
+    name: "How to Convert HEIC to JPG, PNG, or WEBP",
     description:
-      "Convert iPhone HEIC photos to JPG format instantly using HEIC Studio. No software installation needed.",
+      "Convert iPhone HEIC photos to JPG, PNG, or WEBP format instantly using HEIC Studio. No software installation needed.",
     totalTime: "PT10S",
     step: [
       {
@@ -253,8 +256,8 @@ function JsonLd() {
       },
       {
         "@type": "HowToStep",
-        name: "Download your JPGs",
-        text: "Your converted JPG files are ready instantly. Click download to save them to your device.",
+        name: "Download your images",
+        text: "Your converted JPG, PNG, or WEBP files are ready instantly. Click download to save them to your device.",
         position: 3,
       },
     ],

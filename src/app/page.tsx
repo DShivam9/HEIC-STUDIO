@@ -116,7 +116,7 @@ export default function Home() {
               </a>
             ))}
             <a
-              href="https://github.com/DShivam9/UnHEIC"
+              href="https://github.com/DShivam9/HEIC-STUDIO"
               target="_blank"
               rel="noreferrer"
               className="text-foreground/70 hover:text-primary hover:-translate-y-1 transition-all duration-300 inline-block"
@@ -131,7 +131,7 @@ export default function Home() {
       <main className="flex-1 flex flex-col relative">
         
         {/* Hero Section */}
-        <section ref={heroRef} className="relative h-[400vh] w-full">
+        <section ref={heroRef} className="relative h-[250vh] md:h-[400vh] w-full">
           <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
             <motion.div
               initial={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }}
@@ -163,9 +163,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-                className="max-w-xl mx-auto text-muted-foreground text-base md:text-xl leading-relaxed font-sans font-light mb-12 md:mb-16"
+                className="max-w-xl mx-auto text-muted-foreground text-base md:text-xl leading-relaxed font-sans font-light mb-8 md:mb-10"
               >
-                Transform your iPhone HEIC photos to JPG instantly. Zero server uploads. 100% uncompromising privacy.
+                Transform your iPhone HEIC photos to JPG, PNG, or WEBP instantly. Zero server uploads. 100% uncompromising privacy.
               </motion.p>
             </div>
 
@@ -173,7 +173,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40, scale: 0.95, filter: "blur(15px)" }}
               animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
               transition={{ duration: 1.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-xl relative mt-4"
+              className="w-full max-w-xl relative mt-0 md:mt-2"
             >
               <DropzoneArea />
             </motion.div>
@@ -194,8 +194,8 @@ export default function Home() {
               >
                 Our Approach
               </motion.h2>
-              <div className="font-heading text-3xl md:text-5xl flex justify-center px-4">
-                <LensBlurText text="The Standard for Privacy" />
+              <div className="font-heading text-4xl md:text-5xl text-center px-4 leading-tight">
+                <LensBlurText text="The Standard for Privacy" className="justify-center" />
               </div>
             </div>
 
@@ -358,7 +358,7 @@ export default function Home() {
               />
               <FAQItem 
                 question="Why are my iPhone photos in HEIC anyway?" 
-                answer="Apple adopted HEIC (High-Efficiency Image Container) because it offers significantly better compression than JPG, saving you iCloud and device storage space without sacrificing quality." 
+                answer="Apple adopted HEIC (High-Efficiency Image Container) because it offers significantly better compression than JPG and PNG, saving you iCloud and device storage space without sacrificing quality." 
               />
               <FAQItem 
                 question="Is HEIC Studio really free?" 
@@ -366,7 +366,7 @@ export default function Home() {
               />
               <FAQItem 
                 question="What is HEIC format?" 
-                answer="HEIC stands for High-Efficiency Image Container. It's the default photo format used by Apple iPhones since iOS 11 (2017). HEIC files are roughly 50% smaller than equivalent JPG files while maintaining the same visual quality — but they're not universally supported, which is why you may need to convert them." 
+                answer="HEIC stands for High-Efficiency Image Container. It's the default photo format used by Apple iPhones since iOS 11 (2017). HEIC files are roughly 50% smaller than equivalent JPG files while maintaining the same visual quality — but they're not universally supported by older software, which is why you may need to convert them to JPG, PNG, or WEBP." 
               />
             </div>
           </div>

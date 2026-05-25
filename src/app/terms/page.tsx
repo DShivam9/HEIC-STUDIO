@@ -47,7 +47,7 @@ export default function TermsOfService() {
 
           <h2 className="text-2xl font-heading text-foreground mt-12 mb-4">2. Description of Service</h2>
           <p>
-            HEIC Studio is a client-side web application that allows users to convert HEIC image files into other standard formats (such as JPG or PNG). All processing is performed locally on your device's hardware via your web browser.
+            HEIC Studio is a client-side web application that allows users to convert HEIC image files into other standard formats (such as JPG, PNG, or WEBP). All processing is performed locally on your device's hardware via your web browser.
           </p>
 
           <h2 className="text-2xl font-heading text-foreground mt-12 mb-4">3. User Responsibilities</h2>

@@ -80,7 +80,7 @@ function ConversionItem({ job, onRemove, hideDownload }: { job: ConversionJob; o
               <LiquidButton
                 asLink
                 href={job.resultUrl} 
-                download={`${job.file.name.replace(/\.heic$/i, "")}.jpg`}
+                download={`${job.file.name.replace(/\.heic$/i, "")}.${job.targetFormat === "jpeg" ? "jpg" : job.targetFormat}`}
                 className="!py-1 !px-3 !rounded-[12px] !text-[0.8rem] h-7"
               >
                 <Download className="size-3.5" />
@@ -129,7 +129,8 @@ export default function ConversionList({ jobs, setJobs }: ConversionListProps) {
       completedJobs.map(async (job) => {
         const response = await fetch(job.resultUrl!);
         const blob = await response.blob();
-        const fileName = `${job.file.name.replace(/\.heic$/i, "")}.jpg`;
+        const ext = job.targetFormat === "jpeg" ? "jpg" : job.targetFormat;
+        const fileName = `${job.file.name.replace(/\.heic$/i, "")}.${ext}`;
         return { fileName, blob };
       })
     );

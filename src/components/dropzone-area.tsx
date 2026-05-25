@@ -5,11 +5,12 @@ import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, AlertCircle } from "lucide-react";
 import ConversionList from "./conversion-list";
-import { convertHeicToJpg, type ConversionJob } from "@/lib/heic-converter";
+import { convertHeic, type ConversionJob, type OutputFormat } from "@/lib/heic-converter";
 
 export default function DropzoneArea() {
   const [jobs, setJobs] = useState<ConversionJob[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [outputFormat, setOutputFormat] = useState<OutputFormat>("jpeg");
 
   const onDrop = useCallback(async (acceptedFiles: File[], fileRejections: any[]) => {
     setErrorMsg(null);
@@ -28,6 +29,7 @@ export default function DropzoneArea() {
       id: crypto.randomUUID(),
       file,
       status: "pending" as const,
+      targetFormat: outputFormat,
     }));
     
     setJobs((prev) => [...prev, ...newJobs]);
@@ -41,7 +43,7 @@ export default function DropzoneArea() {
       );
 
       try {
-        const url = await convertHeicToJpg(job.file);
+        const url = await convertHeic(job.file, job.targetFormat);
         setJobs((current) =>
           current.map((j) =>
             j.id === job.id ? { ...j, status: "completed", resultUrl: url } : j
@@ -56,7 +58,7 @@ export default function DropzoneArea() {
         );
       }
     }
-  }, []);
+  }, [outputFormat]);
 
   const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
     onDrop,
@@ -68,7 +70,7 @@ export default function DropzoneArea() {
   });
 
   return (
-    <div className="w-full flex flex-col items-center gap-8">
+    <div className="w-full flex flex-col items-center gap-5">
       <AnimatePresence>
         {errorMsg && (
           <motion.div
@@ -82,6 +84,45 @@ export default function DropzoneArea() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <div className="w-full flex flex-col items-center gap-2">
+        <div className="flex bg-muted/60 p-1.5 rounded-2xl w-full max-w-[280px] mx-auto relative backdrop-blur-sm border border-border/30">
+          {(["jpeg", "png", "webp"] as const).map((fmt) => (
+            <button
+              key={fmt}
+              onClick={() => setOutputFormat(fmt)}
+              className={`relative flex-1 py-2 text-sm font-semibold tracking-wide transition-colors ${
+                outputFormat === fmt ? "text-foreground" : "text-muted-foreground hover:text-foreground/80"
+              }`}
+            >
+              {outputFormat === fmt && (
+                <motion.div
+                  layoutId="active-format"
+                  className="absolute inset-0 bg-background rounded-xl shadow-sm border border-border/50"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{fmt.toUpperCase()}</span>
+            </button>
+          ))}
+        </div>
+        
+        <AnimatePresence>
+          {outputFormat === "png" && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="text-xs text-muted-foreground text-center overflow-hidden"
+            >
+              <div className="pt-2">
+                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full mr-1.5 inline-block text-[0.65rem] uppercase tracking-wider font-bold">Note</span>
+                PNG files are significantly larger than JPG or WEBP.
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       <motion.div layout className="w-full">
         <div

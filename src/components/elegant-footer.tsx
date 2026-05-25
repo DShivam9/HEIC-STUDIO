@@ -5,10 +5,13 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+const FooterLink = ({ href, children, external }: { href: string; children: React.ReactNode; external?: boolean }) => {
+  const Component = external ? 'a' : Link;
+  const props = external ? { href, target: "_blank", rel: "noreferrer" } : { href };
+
   return (
-    <Link 
-      href={href} 
+    <Component 
+      {...props} 
       className="group relative flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors duration-500 py-2 font-sans font-medium text-lg md:text-xl"
     >
       <span>{children}</span>
@@ -16,7 +19,7 @@ const FooterLink = ({ href, children }: { href: string; children: React.ReactNod
       
       {/* Sliding Liquid Underline */}
       <span className="absolute bottom-0 left-0 w-full h-[1px] bg-foreground/20 origin-right transition-transform duration-500 ease-[0.16,1,0.3,1] scale-x-0 group-hover:origin-left group-hover:scale-x-100" />
-    </Link>
+    </Component>
   );
 };
 
@@ -30,7 +33,7 @@ function ScrollLetter({ char, index, progress, total }: { char: string, index: n
   const y = useTransform(clampedProgress, [start, end], ["120%", "0%"]);
   const opacity = useTransform(clampedProgress, [start, end], [0, 1]);
   const rotateX = useTransform(clampedProgress, [start, end], [-80, 0]);
-  const blurRaw = useTransform(clampedProgress, [start, end], [20, 0]);
+  const blurRaw = useTransform(clampedProgress, [start, end], [12, 0]);
   const filter = useTransform(blurRaw, (v: number) => `blur(${Math.max(0, v)}px)`);
 
   // Handle space characters — inline-block collapses whitespace
@@ -40,14 +43,12 @@ function ScrollLetter({ char, index, progress, total }: { char: string, index: n
     <motion.span style={{ y, opacity, rotateX, filter }} className="inline-block">
       <motion.span
         animate={{
-          filter: ["blur(0px)", "blur(3px)", "blur(0px)"],
           opacity: [1, 0.7, 1],
         }}
         transition={{
           duration: 8,
           repeat: Infinity,
           ease: "easeInOut",
-          // Tight wave: letters close together breathe almost in sync
           delay: index * 0.15,
         }}
         className="inline-block text-foreground cursor-default"
@@ -90,7 +91,7 @@ export function ElegantFooter() {
             <FooterLink href="#approach">Approach</FooterLink>
             <FooterLink href="#privacy">Privacy</FooterLink>
             <FooterLink href="#faq">FAQ</FooterLink>
-            <FooterLink href="https://github.com/DShivam9/HEIC Studio">Source Code</FooterLink>
+            <FooterLink href="https://github.com/DShivam9/HEIC-STUDIO" external>Source Code</FooterLink>
           </nav>
         </div>
       </div>
@@ -99,9 +100,9 @@ export function ElegantFooter() {
       <div className="container mx-auto flex flex-col items-center justify-center relative z-10 mt-12">
         <motion.div 
           style={{ perspective: "1000px" }}
-          className="w-full text-center relative group pb-4"
+          className="w-full text-center relative group pb-4 overflow-hidden"
         >
-          <h2 className="text-[20vw] md:text-[15vw] leading-none font-heading font-medium tracking-[-0.04em] cursor-default relative flex justify-center">
+          <h2 className="text-[13vw] md:text-[15vw] leading-none font-heading font-medium tracking-[-0.04em] cursor-default relative flex justify-center whitespace-nowrap">
             {"HEIC Studio.".split("").map((char, i, arr) => (
               <ScrollLetter key={i} char={char} index={i} progress={scrollYProgress} total={arr.length} />
             ))}
@@ -110,12 +111,12 @@ export function ElegantFooter() {
       </div>
 
       {/* Very Bottom Bar */}
-      <div className="container mx-auto mt-16 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-sans text-muted-foreground z-10 relative">
-        <p>© {new Date().getFullYear()} HEIC Studio. All rights reserved.</p>
-        <div className="flex gap-6">
+      <div className="container mx-auto mt-16 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-sans text-muted-foreground z-10 relative">
+        <p className="text-center md:text-left">© {new Date().getFullYear()} HEIC Studio. All rights reserved.</p>
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm">
           <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
           <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
-          <a href="https://github.com/DShivam9/HEIC-STUDIO" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors hidden sm:block">Open Source</a>
+          <a href="https://github.com/DShivam9/HEIC-STUDIO" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Open Source</a>
         </div>
       </div>
 

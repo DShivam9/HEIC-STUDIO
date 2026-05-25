@@ -3,15 +3,19 @@ import Link from "next/link";
 import { ArrowLeft, Shield, Cpu, Lock } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "How HEIC to JPG Conversion Works — The Architecture of Privacy",
+  title: "How HEIC Conversion Works — The Architecture of Privacy",
   description:
-    "Learn how HEIC Studio converts your iPhone photos to JPG entirely in your browser using WebAssembly. No servers, no uploads — understand the technology behind truly private photo conversion.",
+    "Learn how HEIC Studio converts your iPhone photos to JPG, PNG, and WEBP entirely in your browser using WebAssembly. No servers, no uploads — understand the technology behind truly private photo conversion.",
   keywords: [
     "how heic conversion works",
     "heic to jpg privacy",
+    "heic to png privacy",
+    "heic to webp privacy",
     "webassembly image converter",
     "client side heic converter",
     "local heic to jpg",
+    "local heic to png",
+    "local heic to webp",
     "what is heic format",
   ],
   alternates: {
@@ -78,7 +82,7 @@ export default function LearnMore() {
             When you drop a HEIC file into HEIC Studio, you aren't uploading it. Instead, your browser passes a memory reference to our embedded WebAssembly (Wasm) module. 
           </p>
           <p>
-            This module contains the sophisticated libheif decoder, compiled to run locally. It decodes the high-efficiency container format bit-by-bit in your device's RAM. Once the raw pixel data is extracted, it is immediately encoded into a standard JPG format and offered back to your local file system as a download.
+            This module contains the sophisticated libheif decoder, compiled to run locally. It decodes the high-efficiency container format bit-by-bit in your device's RAM. Once the raw pixel data is extracted, it is immediately encoded into standard JPG, PNG, or WEBP formats and offered back to your local file system as a download.
           </p>
           <p>
             The moment you close the tab, the memory is purged. No logs. No traces.

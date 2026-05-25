@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, MotionValue, useTransform, useSpring } from "framer-motion";
+import { motion, MotionValue, useTransform } from "framer-motion";
+import Image from "next/image";
 
 export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<number> }) {
   // Fallback if not passed (though it will be passed now)
@@ -41,10 +42,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [-6, -4, -6] }}
           transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" priority className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -56,10 +56,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, 20, 0], rotate: [8, 6, 8] }}
           transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 1 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" priority className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -71,10 +70,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, -10, 0], rotate: [12, 14, 12] }}
           transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 2 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=600&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=600&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -88,10 +86,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, -20, 0], rotate: [-3, -1, -3] }}
           transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 0.5 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -103,10 +100,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, 15, 0], rotate: [5, 3, 5] }}
           transition={{ repeat: Infinity, duration: 8.5, ease: "easeInOut", delay: 1.5 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -120,10 +116,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, -10, 0], rotate: [-8, -6, -8] }}
           transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut", delay: 1 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1509305717900-84f40e786d82?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1509305717900-84f40e786d82?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -135,10 +130,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, 20, 0], rotate: [10, 12, 10] }}
           transition={{ repeat: Infinity, duration: 7.5, ease: "easeInOut", delay: 0.2 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-2xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 
@@ -150,10 +144,9 @@ export function HeroParallax({ scrollProgress }: { scrollProgress?: MotionValue<
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [4, 6, 4] }}
           transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 0.8 }}
-          className="w-full h-full rounded-2xl overflow-hidden border border-border/40 shadow-xl"
+          className="w-full h-full relative rounded-2xl overflow-hidden border border-border/40 shadow-xl"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover grayscale contrast-125" />
+          <Image src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover grayscale contrast-125" />
         </motion.div>
       </motion.div>
 

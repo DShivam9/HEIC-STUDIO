@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "HEIC to PNG Converter — Free, Private, Lossless",
+  title: "HEIC to PNG Converter — Free, Private, Instant",
   description:
-    "Convert HEIC files to PNG instantly in your browser. Lossless quality, no upload required. 100% private, free, and unlimited. Perfect for iPhone and iPad photos.",
+    "Convert HEIC files to PNG instantly in your browser. No upload required. 100% private, free, and unlimited. Works on iPhone photos, iPad screenshots, and all Apple HEIC images.",
   keywords: [
     "heic to png",
     "heic to png converter",
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "heic to png online",
     "heic to png free",
     "iphone heic to png",
+    "apple photo to png",
   ],
   alternates: {
     canonical: "https://heicstudio.vercel.app/convert/heic-to-png",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "HEIC to PNG Converter — Free & Private | HEIC Studio",
     description:
-      "Convert iPhone HEIC photos to lossless PNG instantly. No uploads, no servers — everything happens in your browser.",
+      "Convert iPhone HEIC photos to PNG instantly. No uploads, no servers — everything happens in your browser.",
     url: "https://heicstudio.vercel.app/convert/heic-to-png",
     type: "website",
   },
