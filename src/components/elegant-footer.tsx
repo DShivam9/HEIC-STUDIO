@@ -112,10 +112,11 @@ export function ElegantFooter() {
       {/* Very Bottom Bar */}
       <div className="container mx-auto mt-16 pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-sans text-muted-foreground z-10 relative">
         <p>© {new Date().getFullYear()} HEIC Studio. All rights reserved.</p>
-        <p className="flex gap-4">
-          <span>Local Processed</span>
-          <span>Open Source</span>
-        </p>
+        <div className="flex gap-6">
+          <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+          <a href="https://github.com/DShivam9/HEIC-STUDIO" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors hidden sm:block">Open Source</a>
+        </div>
       </div>
 
       {/* Subtle glowing orb in background */}
